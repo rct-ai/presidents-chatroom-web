@@ -38,6 +38,7 @@ const wsConnected = computed(
 const status = ref('idle')
 const voteCount = ref({})
 const messageList = ref([])
+const audienceList = ref([])
 
 const questionPanelStatus = reactive({
   isLoading: false,
@@ -62,12 +63,14 @@ const handleUserInput = (message) => {
 
 const handleVote = (name) => {
   console.log(name)
-  send(JSON.stringify({
-    action: 'vote',
-    content: {
-      name
-    }
-  }))
+  send(
+    JSON.stringify({
+      action: 'vote',
+      content: {
+        name
+      }
+    })
+  )
 }
 
 const handleQuestionPanelClose = (done) => {
@@ -91,9 +94,24 @@ const handleWaitingResponse = () => {
   }
 }
 
+const handleFirstInvite = () => {
+  if (!audienceList.value.some((user_id) => user_id === userId)) {
+    send(
+      JSON.stringify({
+        action: 'audience_enter',
+        content: {
+          user_id: userId
+        }
+      })
+    )
+  }
+}
+
 const handleWsMessage = (data) => {
   status.value = data.status || 'idle'
   voteCount.value = data.vote_count || {}
+  data.audience_list?.reverse()
+  audienceList.value = data.audience_list || []
   if (data.message_list) {
     messageList.value = data.message_list.map((item) => {
       item.isMe = item.from === userId
@@ -103,6 +121,7 @@ const handleWsMessage = (data) => {
 
   // TODO: update messageList
   handleWaitingResponse()
+  handleFirstInvite()
 }
 
 const handleClickAvatar = (name) => {
@@ -138,6 +157,14 @@ watch(wsMessage, (value) => {
         <!-- vote -->
         <score-board :vote-count="voteCount" @vote="handleVote" />
         <!-- audience -->
+        <div class="mt-4">
+          <div class="text-center">Audience</div>
+          <div class="text-center max-h-[50vh] overflow-y-scroll">
+            <div v-for="user in audienceList">
+              User <span>{{ user }}</span> entered this room
+            </div>
+          </div>
+        </div>
       </el-col>
       <el-col :span="16" class="flex flex-col h-full">
         <!-- message -->

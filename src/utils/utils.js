@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-
 export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
 crypto.randomUUID = function randomUUID() {
@@ -13,7 +11,7 @@ export const getUserId = () => {
   const local = localStorage.getItem('voting/userid')
   if (local) return local
 
-  const id = crypto.randomUUID().slice(0, 8)
-  localStorage.setItem('voting/userid', `0x${id}`)
+  const id = `0x${crypto.randomUUID().slice(0, 8)}`
+  localStorage.setItem('voting/userid', id)
   return id
 }

@@ -3,6 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useWebSocket } from '@vueuse/core'
 import MessageList from '@/components/MessageList.vue'
 import UserInput from '@/components/UserInput.vue'
+import Scoreboard from '@/components/ScoreBoard.vue'
 import { ElMessage } from 'element-plus'
 import { getUserId } from '@/utils/utils'
 
@@ -35,6 +36,7 @@ const wsConnected = computed(
 )
 
 const status = ref('idle')
+const voteCount = ref({})
 const messageList = ref([])
 
 const questionPanelStatus = reactive({
@@ -56,6 +58,16 @@ const handleUserInput = (message) => {
   send(data)
   questionPanelStatus.waitingForStamp = timestamp
   questionPanelStatus.isLoading = true
+}
+
+const handleVote = (name) => {
+  console.log(name)
+  send(JSON.stringify({
+    action: 'vote',
+    content: {
+      name
+    }
+  }))
 }
 
 const handleQuestionPanelClose = (done) => {
@@ -81,12 +93,14 @@ const handleWaitingResponse = () => {
 
 const handleWsMessage = (data) => {
   status.value = data.status || 'idle'
+  voteCount.value = data.vote_count || {}
   if (data.message_list) {
     messageList.value = data.message_list.map((item) => {
       item.isMe = item.from === userId
       return item
     })
   }
+
   // TODO: update messageList
   handleWaitingResponse()
 }
@@ -97,7 +111,6 @@ const handleClickAvatar = (name) => {
 
 watch(wsConnected, (value) => {
   if (value) {
-    ElMessage.success('Connected to WebSocket.')
     send(JSON.stringify({ action: 'refresh' }))
   }
 })
@@ -123,6 +136,7 @@ watch(wsMessage, (value) => {
     <el-row class="h-full">
       <el-col :span="8">
         <!-- vote -->
+        <score-board :vote-count="voteCount" @vote="handleVote" />
         <!-- audience -->
       </el-col>
       <el-col :span="16" class="flex flex-col h-full">

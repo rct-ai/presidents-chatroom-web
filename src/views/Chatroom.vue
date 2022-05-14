@@ -1,33 +1,41 @@
 <script setup>
-import { reactive, ref, watch } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 import { useWebSocket } from '@vueuse/core'
 import MessageList from '@/components/MessageList.vue'
 import UserInput from '@/components/UserInput.vue'
+import { ElMessage } from 'element-plus'
+import { getUserId } from '@/utils/utils'
 
-const { data: wsMessage, send } = useWebSocket(import.meta.env.VITE_WS_URL, {
+const userId = getUserId()
+// 约定一个通道发送，一个通道接收
+const messageWs = `${import.meta.env.VITE_WS_URL}/${userId}/message`
+const sendWs = `${import.meta.env.VITE_WS_URL}/send`
+
+const { status: messageWsStatus, data: wsMessage } = useWebSocket(messageWs, {
   autoReconnect: {
     retries: 3,
     delay: 1000,
     onFailed() {
-      alert('Failed to connect WebSocket after 3 retries')
+      ElMessage.error('Failed to connect WebSocket, please reload the page.')
+    }
+  }
+})
+const { status: sendWsStatus, send } = useWebSocket(sendWs, {
+  autoReconnect: {
+    retries: 3,
+    delay: 1000,
+    onFailed() {
+      ElMessage.error('Failed to connect WebSocket, please reload the page.')
     }
   }
 })
 
+const wsConnected = computed(
+  () => messageWsStatus.value === 'OPEN' && sendWsStatus.value === 'OPEN'
+)
+
 const status = ref('idle')
-const messageList = reactive([
-  {
-    from: 'Biden',
-    timestamp: 1652498235638,
-    message: 'How are you'
-  },
-  {
-    isMe: true,
-    from: '0x0df234',
-    timestamp: 1652498248595,
-    message: 'How will you lead in the next phase of the COVID-19 crisis?'
-  }
-])
+const messageList = ref([])
 
 const questionPanelStatus = reactive({
   isLoading: false,
@@ -41,7 +49,7 @@ const handleUserInput = (message) => {
     action: 'send_message',
     content: {
       message,
-      user_id: '0x0df234',
+      user_id: userId,
       timestamp
     }
   })
@@ -62,10 +70,8 @@ const hasEqualStamp = (messageList, stamp) => {
 }
 
 const handleWaitingResponse = () => {
-  if (messageList.length && questionPanelStatus.waitingForStamp > 0) {
-    // TODO: update messageList
-    console.log(messageList)
-    if (hasEqualStamp(messageList, questionPanelStatus.waitingForStamp)) {
+  if (messageList.value.length && questionPanelStatus.waitingForStamp > 0) {
+    if (hasEqualStamp(messageList.value, questionPanelStatus.waitingForStamp)) {
       questionPanelStatus.visible = false
       questionPanelStatus.isLoading = false
       questionPanelStatus.waitingForStamp = -1
@@ -75,9 +81,26 @@ const handleWaitingResponse = () => {
 
 const handleWsMessage = (data) => {
   status.value = data.status || 'idle'
-
+  if (data.message_list) {
+    messageList.value = data.message_list.map((item) => {
+      item.isMe = item.from === userId
+      return item
+    })
+  }
+  // TODO: update messageList
   handleWaitingResponse()
 }
+
+const handleClickAvatar = (name) => {
+  console.log(name)
+}
+
+watch(wsConnected, (value) => {
+  if (value) {
+    ElMessage.success('Connected to WebSocket.')
+    send(JSON.stringify({ action: 'refresh' }))
+  }
+})
 
 watch(wsMessage, (value) => {
   let parsed
@@ -86,7 +109,6 @@ watch(wsMessage, (value) => {
   } catch (e) {
     console.error(e)
   }
-  console.log(parsed)
   if (parsed) {
     handleWsMessage(parsed)
   }
@@ -105,7 +127,9 @@ watch(wsMessage, (value) => {
       </el-col>
       <el-col :span="16" class="flex flex-col h-full">
         <!-- message -->
-        <message-list :list="messageList" />
+        <div class="h-full relative">
+          <message-list :list="messageList" @click-avatar="handleClickAvatar" />
+        </div>
         <!-- input -->
         <div class="h-24 p-4">
           <el-button

@@ -26,7 +26,7 @@ const handleSend = async (value) => {
     <el-tab-pane v-for="item in questions" :label="item.theme" :key="item.theme">
       <div
         v-for="question in item.questions"
-        class="mb-[26px] mx-[35px] py-[15px] px-[20px] bg-black-top text-white flex gap-[20px] w-[430px] rounded-[7px]"
+        class="mb-[26px] mx-[35px] py-[15px] px-[20px] bg-black-top text-white flex gap-[20px] w-[430px] rounded-[7px] justify-between"
       >
         <div class="text-lg break-normal">{{ question }}</div>
         <div class="flex flex-col-reverse pt-4">
@@ -68,29 +68,31 @@ const handleSend = async (value) => {
 </template>
 
 <style lang="postcss" scoped>
-.sendbutton,
-.sendbutton.is-disabled {
-  @apply w-[75px] h-[34px] text-[16px] font-bold;
-}
-.textarea {
-  flex: 1;
-  :deep(.el-textarea__inner) {
-    width: 430px;
-    padding: 15px 20px;
-    height: 100%;
-    background: #2c3234;
-    border-radius: 7px;
-    color: white;
-    font-size: 16px;
+#app {
+  .sendbutton,
+  .sendbutton.is-disabled {
+    @apply w-[75px] h-[38px] text-[16px] font-bold;
   }
-  :deep(.el-input__count) {
-    background: transparent;
-    font-weight: 500;
-    font-size: 16px;
-    line-height: 20px;
-    color: white;
-    bottom: -32px;
-    left: 0;
+  .textarea {
+    flex: 1;
+    :deep(.el-textarea__inner) {
+      width: 430px;
+      padding: 15px 20px;
+      height: 100%;
+      background: #2c3234;
+      border-radius: 7px;
+      color: white;
+      font-size: 16px;
+    }
+    :deep(.el-input__count) {
+      background: transparent;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 20px;
+      color: white;
+      bottom: -32px;
+      left: 0;
+    }
   }
 }
 </style>

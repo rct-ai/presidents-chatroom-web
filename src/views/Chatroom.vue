@@ -196,13 +196,30 @@ watch(wsMessage, (value) => {
           </div>
         </div>
         <!-- input -->
-        <div class="h-[38px] mt-[12px] mb-[38px]">
+        <div class="h-[40px] mt-[12px] mb-[38px]">
           <el-button
             type="primary"
             class="askbutton"
             @click="questionPanelStatus.visible = true"
             :disabled="status !== 'idle'"
           >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              class="mr-2"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M5 21.766V18H4C2.897 18 2 17.103 2 16V8C2 6.897 2.897 6 4 6H16C17.103 6 18 6.897 18 8V16C18 17.103 17.103 18 16 18H11.277L6.515 20.857L5 21.766ZM16 8H4V16H7V18.234L10.723 16H16V8Z"
+              />
+              <path
+                d="M20 2H8C6.897 2 6 2.897 6 4H18C19.103 4 20 4.897 20 6V14C21.103 14 22 13.103 22 12V4C22 2.897 21.103 2 20 2Z"
+              />
+            </svg>
             Ask Question
           </el-button>
           <el-dialog

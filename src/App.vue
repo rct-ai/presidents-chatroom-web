@@ -1,12 +1,12 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
   <router-view class="w-full h-full" />
 </template>
 
 <style lang="postcss">
-html, body {
+html,
+body {
   background: #172023;
 }
 #app {

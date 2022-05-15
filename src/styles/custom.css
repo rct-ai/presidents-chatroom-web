@@ -1,0 +1,66 @@
+#app {
+  --el-color-primary: #f3b922;
+  --el-text-color-primary: #fff;
+  .el-button.el-button--primary,
+  .el-dialog__headerbtn {
+    background: #f3b922;
+    box-shadow: inset 0px -4px 0px #7e5f0d;
+    border-radius: 7px;
+    color: #172023;
+    border: 0;
+    transition: all 0.2s;
+    padding: 0px 22px 4px;
+
+    &.is-disabled,
+    &.is-disabled:hover,
+    &.is-disabled:focus {
+      color: rgba(23, 32, 35, 0.5);
+      background: #b6b1a6;
+      box-shadow: inset 0px -4px 0px #959186;
+    }
+
+    &:not(.is-disabled):active {
+      background: #f3b922;
+      box-shadow: inset 0px -4px 0px #7e5f0d;
+      box-shadow: none;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+    &:focus {
+      background: #f3b922;
+      box-shadow: inset 0px -4px 0px #7e5f0d;
+      color: #172023;
+      border: 0;
+    }
+    &:hover {
+      color: #172023;
+      background: #f2cb66;
+      box-shadow: inset 0px -4px 0px #7e5f0d;
+    }
+  }
+
+  .el-dialog__headerbtn {
+    width: 34px;
+    height: 34px;
+    right: -17px;
+    top: -17px;
+    padding-left: 0;
+    padding-right: 0;
+    .el-dialog__close {
+      padding-top: 12px;
+      font-size: 20px;
+      color: #172023;
+    }
+  }
+
+  .el-dialog {
+    background: #0d1517;
+    border: 1px solid #715d2c;
+    border-radius: 7px;
+  }
+
+  .el-loading-mask {
+    background: #0d1517;
+    opacity: 0.5;
+  }
+}

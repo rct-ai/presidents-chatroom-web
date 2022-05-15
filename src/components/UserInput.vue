@@ -24,50 +24,72 @@ const handleSend = async (value) => {
 <template>
   <el-tabs tab-position="left" v-loading="isLoading">
     <el-tab-pane v-for="item in questions" :label="item.theme" :key="item.theme">
-      <div v-for="question in item.questions" class="m-2 p-4 bg-slate-100">
+      <div
+        v-for="question in item.questions"
+        class="mb-[26px] mx-[35px] py-[15px] px-[20px] bg-black-top text-white flex gap-[20px]"
+      >
         <div class="text-lg break-normal">{{ question }}</div>
-        <div class="flex flex-row-reverse pt-4">
-          <el-button type="primary" :disabled="disabled" @click="handleSend(question)">
+        <div class="flex flex-col-reverse pt-4">
+          <el-button
+            type="primary"
+            :disabled="disabled"
+            @click="handleSend(question)"
+            class="sendbutton"
+          >
             Send
           </el-button>
         </div>
       </div>
     </el-tab-pane>
     <el-tab-pane label="Send other question">
-      <el-input
-        type="textarea"
-        :disabled="disabled"
-        placeholder="Ask a question"
-        v-model="message"
-        max-length="200"
-      />
-      <div class="flex flex-row-reverse pt-4">
-        <el-button type="primary" :disabled="disabled || message.length < 1" @click="handleSend(message)">
-          Send
-        </el-button>
+      <div class="mx-[35px] flex flex-col h-[320px]">
+        <el-input
+          type="textarea"
+          :disabled="disabled"
+          placeholder="Ask a question"
+          v-model="message"
+          :maxlength="200"
+          :show-word-limit="true"
+          class="textarea"
+        />
+        <div class="flex flex-row-reverse pt-4">
+          <el-button
+            type="primary"
+            :disabled="disabled || message.length < 1"
+            @click="handleSend(message)"
+            class="sendbutton"
+          >
+            Send
+          </el-button>
+        </div>
       </div>
     </el-tab-pane>
   </el-tabs>
 </template>
 
 <style lang="postcss" scoped>
-.username {
-  @apply text-sm;
+.sendbutton,
+.sendbutton.is-disabled {
+  @apply w-[75px] h-[34px] text-[16px] font-bold;
 }
-.message {
-  @apply bg-white;
-  @apply px-4 py-2;
-  @apply border rounded;
-  max-width: 30vw;
-}
-
-.is-me {
-  flex-direction: row-reverse;
-  .username {
-    text-align: right;
+.textarea {
+  flex: 1;
+  :deep(.el-textarea__inner) {
+    padding: 15px 20px;
+    height: 100%;
+    background: #2c3234;
+    border-radius: 7px;
+    color: white;
+    font-size: 16px;
   }
-  .message {
-    @apply bg-blue-200;
+  :deep(.el-input__count) {
+    background: transparent;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    color: white;
+    bottom: -32px;
+    left: 0;
   }
 }
 </style>

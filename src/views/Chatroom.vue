@@ -177,7 +177,7 @@ watch(wsMessage, (value) => {
           </div>
         </div>
         <!-- input -->
-        <div class="h-24 p-4">
+        <div class="h-[38px] mt-[12px] mb-[38px]">
           <el-button
             type="primary"
             class="askbutton"
@@ -219,6 +219,6 @@ watch(wsMessage, (value) => {
 }
 .askbutton {
   @apply w-full h-full;
-  @apply text-2xl;
+  font-size: 16px;
 }
 </style>

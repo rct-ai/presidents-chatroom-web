@@ -53,7 +53,7 @@ watch(
 }
 .message {
   background: white;
-  max-width: 30vw;
+  max-width: 380px;
   padding: 10px;
   border-radius: 0px 7px 7px 7px;
   color: black;

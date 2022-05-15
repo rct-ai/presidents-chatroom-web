@@ -1,8 +1,11 @@
+const colors = require('tailwindcss/colors')
+
 module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {},
     colors: {
+      ...colors,
       'primary': '#F3B922',
       'primary-shadow': '#7E5F0D',
       'primary-hover': '#F2CB66',

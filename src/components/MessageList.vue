@@ -22,7 +22,7 @@ watch(
 </script>
 
 <template>
-  <el-scrollbar class="h-full bg-slate-100 px-[45px]" ref="container">
+  <el-scrollbar class="h-full px-[45px]" ref="container">
     <div v-for="item in list" :key="item.timestamp">
       <div class="flex gap-[15px] mb-[35px]" :class="item.isMe ? 'is-me' : ''">
         <div>

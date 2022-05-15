@@ -11,6 +11,7 @@ const props = defineProps({
 
 const dialogVisible = ref(false)
 const selected = ref('')
+const voted = ref(false)
 
 const avatars = {
   Biden: '/Biden.png',
@@ -26,6 +27,7 @@ const handleVote = () => {
   emit('vote', selected.value)
   dialogVisible.value = false
   selected.value = ''
+  voted.value = true
 }
 </script>
 
@@ -55,11 +57,15 @@ const handleVote = () => {
         <div class="score">{{ `${count}`.padStart(3, '0') }}</div>
       </div>
     </div>
-    <el-button type="primary" @click="dialogVisible = true" class="votenow"
+    <el-button
+      type="primary"
+      @click="dialogVisible = true"
+      class="votenow"
+      :disabled="voted"
       >Vote Now</el-button
     >
     <el-dialog v-model="dialogVisible" destroy-on-close>
-      <div class="flex flex-col items-center gap-[35px]">
+      <div class="flex flex-col items-center gap-[35px] px-[50px]">
         <div class="font-semibold text-[24px] leading-[31px] text-white">
           Vote for your favorite president
         </div>

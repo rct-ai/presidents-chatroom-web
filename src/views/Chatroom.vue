@@ -4,6 +4,7 @@ import { useWebSocket } from '@vueuse/core'
 import MessageList from '@/components/MessageList.vue'
 import UserInput from '@/components/UserInput.vue'
 import ScoreBoard from '@/components/ScoreBoard.vue'
+import PresidentDesc from '@/components/PresidentDesc.vue'
 import { ElMessage } from 'element-plus'
 import { getUserId } from '@/utils/utils'
 
@@ -23,8 +24,8 @@ const { status: messageWsStatus, data: wsMessage } = useWebSocket(messageWs, {
 })
 const { status: sendWsStatus, send } = useWebSocket(sendWs, {
   autoReconnect: {
-    retries: 3,
-    delay: 1000,
+    retries: 12,
+    delay: 5000,
     onFailed() {
       ElMessage.error('Failed to connect WebSocket, please reload the page.')
     }
@@ -39,6 +40,10 @@ const status = ref('idle')
 const voteCount = ref({})
 const messageList = ref([])
 const audienceList = ref([])
+const president = reactive({
+  visible: true,
+  name: 'Biden'
+})
 
 const questionPanelStatus = reactive({
   isLoading: false,
@@ -62,7 +67,6 @@ const handleUserInput = (message) => {
 }
 
 const handleVote = (name) => {
-  console.log(name)
   send(
     JSON.stringify({
       action: 'vote',
@@ -125,7 +129,8 @@ const handleWsMessage = (data) => {
 }
 
 const handleClickAvatar = (name) => {
-  console.log(name)
+  president.visible = true
+  president.name = name
 }
 
 watch(wsConnected, (value) => {
@@ -155,7 +160,11 @@ watch(wsMessage, (value) => {
     <div class="w-[1216px] mx-auto flex-1 h-full flex justify-between pt-[30px]">
       <div class="w-[358px] h-full flex flex-col gap-[50px] pb-[38px]">
         <!-- vote -->
-        <score-board :vote-count="voteCount" @vote="handleVote" />
+        <score-board
+          :vote-count="voteCount"
+          @vote="handleVote"
+          @click-avatar="handleClickAvatar"
+        />
         <!-- audience -->
         <div
           class="flex flex-col items-center rounded-[8px] overflow-hidden bg-black-body flex-1"
@@ -210,6 +219,9 @@ watch(wsMessage, (value) => {
         </div>
       </div>
     </div>
+    <el-dialog v-model="president.visible">
+      <president-desc :name="president.name" />
+    </el-dialog>
   </div>
 </template>
 

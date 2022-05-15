@@ -64,6 +64,11 @@
     border: 1px solid #715d2c;
     border-radius: 7px;
     margin: 0 !important;
+    width: auto;
+  }
+
+  .el-dialog__body {
+    padding: 40px;
   }
 
   .el-dialog__header {

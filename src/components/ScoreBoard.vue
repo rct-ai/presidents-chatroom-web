@@ -58,13 +58,16 @@ const handleVote = () => {
     <el-button type="primary" @click="dialogVisible = true" class="votenow"
       >Vote Now</el-button
     >
-    <el-dialog v-model="dialogVisible">
-      <div class="flex flex-col items-center">
-        <div class="h-full py-4 flex gap-4">
+    <el-dialog v-model="dialogVisible" destroy-on-close>
+      <div class="flex flex-col items-center gap-[35px]">
+        <div class="font-semibold text-[24px] leading-[31px] text-white">
+          Vote for your favorite president
+        </div>
+        <div class="h-full flex gap-[30px]">
           <div
             v-for="(count, key) in voteCount"
-            class="cursor-pointer p-4"
-            :class="selected === key ? 'bg-slate-400' : ''"
+            class="ticket"
+            :class="selected === key ? 'selected' : ''"
             @click.stop="handleSelect(key)"
           >
             <el-avatar :size="50" :src="avatars[key]">
@@ -72,10 +75,15 @@ const handleVote = () => {
                 src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
               />
             </el-avatar>
-            <div class="text-center">{{ key }}</div>
+            <div class="text-center font-medium text-[16px] text-white">{{ key }}</div>
           </div>
         </div>
-        <el-button type="primary" @click="handleVote" :disabled="selected === ''">
+        <el-button
+          type="primary"
+          @click="handleVote"
+          :disabled="selected === ''"
+          class="vote"
+        >
           Vote
         </el-button>
       </div>
@@ -103,6 +111,22 @@ const handleVote = () => {
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 20px;
+  }
+  .ticket {
+    @apply cursor-pointer flex flex-col gap-[20px] bg-black-subtop border border-black-subtop px-[20px] py-[15px] rounded-[7px];
+    transition: all 0.2s ease;
+    &:hover {
+      @apply bg-black-hover;
+    }
+    &.selected {
+      @apply border-primary;
+    }
+  }
+  .vote {
+    width: 348px;
+    height: 34px;
+    font-weight: 700;
+    font-size: 16px;
   }
 }
 </style>

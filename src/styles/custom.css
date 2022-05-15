@@ -53,10 +53,21 @@
     }
   }
 
+  .el-overlay-dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   .el-dialog {
     background: #0d1517;
     border: 1px solid #715d2c;
     border-radius: 7px;
+    margin: 0 !important;
+  }
+
+  .el-dialog__header {
+    padding: 0;
   }
 
   .el-loading-mask {

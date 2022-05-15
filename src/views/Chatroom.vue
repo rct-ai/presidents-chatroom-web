@@ -14,8 +14,8 @@ const sendWs = `${import.meta.env.VITE_WS_URL}/send`
 
 const { status: messageWsStatus, data: wsMessage } = useWebSocket(messageWs, {
   autoReconnect: {
-    retries: 3,
-    delay: 1000,
+    retries: 12,
+    delay: 5000,
     onFailed() {
       ElMessage.error('Failed to connect WebSocket, please reload the page.')
     }
@@ -229,6 +229,7 @@ watch(wsMessage, (value) => {
 }
 .askbutton {
   @apply w-full h-full;
+  font-weight: 700;
   font-size: 16px;
 }
 </style>

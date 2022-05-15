@@ -27,32 +27,51 @@ watch(
     })
   }
 )
+
+const beforeEnter = (el) => {
+  el.style.opacity = 0
+}
+const enter = (el, done) => {
+  // console.log(el.dataset.index)
+  setTimeout(() => {
+    el.style.transition = 'all 0.3s '
+    el.style.opacity = 1
+    done()
+  }, 100)
+}
 </script>
 
 <template>
   <el-scrollbar class="h-full px-[45px]" ref="container">
-    <div
-      v-for="item in list"
-      :key="item.timestamp"
-      :class="!avatars[item.from] ? 'is-user' : ''"
+    <transition-group
+      name="more"
+      v-bind:css="false"
+      v-on:before-enter="beforeEnter"
+      v-on:enter="enter"
     >
-      <div class="flex gap-[15px] mb-[35px]" :class="item.isMe ? 'is-me' : ''">
-        <div>
-          <el-avatar
-            :size="40"
-            :src="avatars[item.from]"
-            class="cursor-pointer"
-            @click="emit('clickAvatar', item.from)"
-          >
-            <img src="/user.png" />
-          </el-avatar>
-        </div>
-        <div>
-          <div class="username">{{ item.from }}</div>
-          <div class="message">{{ item.message }}</div>
+      <div
+        v-for="item in list"
+        :key="item.timestamp"
+        :class="!avatars[item.from] ? 'is-user' : ''"
+      >
+        <div class="flex gap-[15px] pb-[35px]" :class="item.isMe ? 'is-me' : ''">
+          <div>
+            <el-avatar
+              :size="40"
+              :src="avatars[item.from]"
+              class="cursor-pointer"
+              @click="emit('clickAvatar', item.from)"
+            >
+              <img src="/user.png" />
+            </el-avatar>
+          </div>
+          <div>
+            <div class="username">{{ item.from }}</div>
+            <div class="message">{{ item.message }}</div>
+          </div>
         </div>
       </div>
-    </div>
+    </transition-group>
   </el-scrollbar>
 </template>
 

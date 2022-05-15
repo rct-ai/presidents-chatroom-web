@@ -1,6 +1,12 @@
 <script setup>
 import { nextTick, ref, watch } from 'vue'
 
+const avatars = {
+  Biden: '/Biden.png',
+  Trump: '/Trump.png',
+  Obama: '/Obama.png'
+}
+
 const emit = defineEmits(['clickAvatar'])
 const props = defineProps({
   list: {
@@ -15,7 +21,7 @@ watch(
   () => props.list.length,
   (value) => {
     nextTick(() => {
-      container.value.setScrollTop(container.value.$el.scrollHeight)
+      container.value.setScrollTop(container.value.$el.querySelector('.el-scrollbar__view').clientHeight)
     })
   }
 )
@@ -28,7 +34,7 @@ watch(
         <div>
           <el-avatar
             :size="40"
-            :src="`/${item.from}.png`"
+            :src="avatars[item.from]"
             class="cursor-pointer"
             @click="emit('clickAvatar', item.from)"
           >

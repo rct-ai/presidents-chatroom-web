@@ -153,25 +153,31 @@ watch(wsMessage, (value) => {
       <h1 class="title">Debate by AI Presidents</h1>
     </div>
     <div class="w-[1216px] mx-auto flex-1 h-full flex justify-between pt-[30px]">
-      <div class="w-[358px]">
+      <div class="w-[358px] h-full flex flex-col gap-[50px] pb-[38px]">
         <!-- vote -->
         <score-board :vote-count="voteCount" @vote="handleVote" />
         <!-- audience -->
-        <div class="mt-4">
-          <div class="text-center">Audience</div>
-          <div class="text-center max-h-[50vh] overflow-y-scroll">
-            <div v-for="user in audienceList">
+        <div
+          class="flex flex-col items-center rounded-[8px] overflow-hidden bg-black-body flex-1 relative"
+        >
+          <div
+            class="bg-black-subtop h-[50px] text-[24px] leading-[50px] text-center font-semibold w-full"
+          >
+            Audience
+          </div>
+          <div class="text-center">
+            <!-- <div v-for="user in audienceList">
               User <span>{{ user }}</span> entered this room
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
       <div class="w-[810px] flex flex-col h-full">
-        <p class="text-center pb-[12px]">Only supports English conversation</p>
+        <p class="text-center pb-[12px] text-[12px]">
+          Only supports English conversation
+        </p>
         <!-- message -->
-        <div
-          class="relative flex-1 rounded-[7px] bg-black-body border border-primary"
-        >
+        <div class="relative flex-1 rounded-[7px] bg-black-body border border-primary">
           <div class="absolute inset-0 py-[30px]">
             <message-list :list="messageList" @click-avatar="handleClickAvatar" />
           </div>

@@ -158,17 +158,21 @@ watch(wsMessage, (value) => {
         <score-board :vote-count="voteCount" @vote="handleVote" />
         <!-- audience -->
         <div
-          class="flex flex-col items-center rounded-[8px] overflow-hidden bg-black-body flex-1 relative"
+          class="flex flex-col items-center rounded-[8px] overflow-hidden bg-black-body flex-1"
         >
           <div
             class="bg-black-subtop h-[50px] text-[24px] leading-[50px] text-center font-semibold w-full"
           >
             Audience
           </div>
-          <div class="text-center">
-            <!-- <div v-for="user in audienceList">
-              User <span>{{ user }}</span> entered this room
-            </div> -->
+          <div class="text-center flex-1 w-full relative">
+            <div class="absolute inset-0 py-[20px] text-[13px]">
+              <el-scrollbar>
+                <div v-for="user in audienceList" class="mb-[10px]">
+                  User <span class="text-primary">{{ user }}</span> entered this room
+                </div>
+              </el-scrollbar>
+            </div>
           </div>
         </div>
       </div>

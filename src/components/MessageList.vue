@@ -21,7 +21,9 @@ watch(
   () => props.list.length,
   (value) => {
     nextTick(() => {
-      container.value.setScrollTop(container.value.$el.querySelector('.el-scrollbar__view').clientHeight)
+      container.value.setScrollTop(
+        container.value.$el.querySelector('.el-scrollbar__view').clientHeight
+      )
     })
   }
 )
@@ -29,7 +31,11 @@ watch(
 
 <template>
   <el-scrollbar class="h-full px-[45px]" ref="container">
-    <div v-for="item in list" :key="item.timestamp">
+    <div
+      v-for="item in list"
+      :key="item.timestamp"
+      :class="!avatars[item.from] ? 'is-user' : ''"
+    >
       <div class="flex gap-[15px] mb-[35px]" :class="item.isMe ? 'is-me' : ''">
         <div>
           <el-avatar
@@ -78,5 +84,9 @@ watch(
     background: #f3b922;
     border-radius: 7px 0px 7px 7px;
   }
+}
+
+.is-user .message {
+  background: #f3b922;
 }
 </style>

@@ -41,7 +41,7 @@ const voteCount = ref({})
 const messageList = ref([])
 const audienceList = ref([])
 const president = reactive({
-  visible: true,
+  visible: false,
   name: 'Biden'
 })
 

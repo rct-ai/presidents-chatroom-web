@@ -16,36 +16,33 @@ export default [
   {
     theme: 'Education',
     questions: [
-      'How will you lead in the next phase of the COVID-19 crisis?',
-      "What do you think there is to learn from China's experience in the fight against the new coronavirus?"
+      'What does "family" mean to you?',
+      'What are your next steps for education reform?'
     ]
   },
   {
     theme: 'Internation Affairs',
     questions: [
-      'How will you lead in the next phase of the COVID-19 crisis?',
-      "What do you think there is to learn from China's experience in the fight against the new coronavirus?"
+      'What are your plans for the next step in U.S. foreign policy?',
+      'Does the U.S. need to increase economic sanctions against China?'
     ]
   },
   {
     theme: 'Immigration',
-    questions: [
-      'How will you lead in the next phase of the COVID-19 crisis?',
-      "What do you think there is to learn from China's experience in the fight against the new coronavirus?"
-    ]
+    questions: ['What are your plans to reform the U.S. immigration policy?']
   },
   {
     theme: 'Retirement System Reform',
     questions: [
-      'How will you lead in the next phase of the COVID-19 crisis?',
-      "What do you think there is to learn from China's experience in the fight against the new coronavirus?"
+      'What are your next steps for retirement system reform?',
+      'Would you consider reducing the percentage of citizens contributing to their pensions?'
     ]
   },
   {
     theme: 'Provoking Disputes',
     questions: [
-      'How will you lead in the next phase of the COVID-19 crisis?',
-      "What do you think there is to learn from China's experience in the fight against the new coronavirus?"
+      'Who do you think is the greatest president in American history?',
+      'Trump, in what areas do you think you are better than Biden?'
     ]
   }
 ]

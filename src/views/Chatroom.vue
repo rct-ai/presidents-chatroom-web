@@ -3,7 +3,7 @@ import { computed, reactive, ref, watch } from 'vue'
 import { useWebSocket } from '@vueuse/core'
 import MessageList from '@/components/MessageList.vue'
 import UserInput from '@/components/UserInput.vue'
-import Scoreboard from '@/components/ScoreBoard.vue'
+import ScoreBoard from '@/components/ScoreBoard.vue'
 import { ElMessage } from 'element-plus'
 import { getUserId } from '@/utils/utils'
 
@@ -148,12 +148,12 @@ watch(wsMessage, (value) => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full">
-    <div class="border-b">
-      <h1 class="text-center text-3xl py-4">Debate by AI Presidents</h1>
+  <div class="flex flex-col h-screen">
+    <div class="header">
+      <h1 class="title">Debate by AI Presidents</h1>
     </div>
-    <el-row class="h-full">
-      <el-col :span="8">
+    <div class="w-[1216px] mx-auto flex-1 h-full flex justify-between pt-[30px]">
+      <div class="w-[358px]">
         <!-- vote -->
         <score-board :vote-count="voteCount" @vote="handleVote" />
         <!-- audience -->
@@ -165,11 +165,16 @@ watch(wsMessage, (value) => {
             </div>
           </div>
         </div>
-      </el-col>
-      <el-col :span="16" class="flex flex-col h-full">
+      </div>
+      <div class="w-[810px] flex flex-col h-full">
+        <p class="text-center pb-[12px]">Only supports English conversation</p>
         <!-- message -->
-        <div class="h-full relative">
-          <message-list :list="messageList" @click-avatar="handleClickAvatar" />
+        <div
+          class="relative flex-1 rounded-[7px] bg-black-body border border-primary"
+        >
+          <div class="absolute inset-0 py-[30px]">
+            <message-list :list="messageList" @click-avatar="handleClickAvatar" />
+          </div>
         </div>
         <!-- input -->
         <div class="h-24 p-4">
@@ -193,12 +198,25 @@ watch(wsMessage, (value) => {
             />
           </el-dialog>
         </div>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
   </div>
 </template>
 
 <style lang="postcss" scoped>
+.header {
+  height: 90px;
+  background: #2f393d;
+  box-shadow: 0px 4px 0px #f3b922;
+  @apply flex items-center justify-center;
+}
+.title {
+  font-weight: bold;
+  font-size: 40px;
+  line-height: 51px;
+  text-transform: uppercase;
+  color: #f3b922;
+}
 .askbutton {
   @apply w-full h-full;
   @apply text-2xl;

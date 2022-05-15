@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, ref, watch } from 'vue'
 
 const emit = defineEmits(['clickAvatar'])
 const props = defineProps({
@@ -9,58 +9,68 @@ const props = defineProps({
   }
 })
 
-const avatars = {
-  Biden: 'https://avatars0.githubusercontent.com/u/17098180?s=460&v=4'
-}
-
 const container = ref(null)
 
-watch(() => props.list.length, (value) => {
-  nextTick(() => {
-    container.value.scrollTop = container.value.scrollHeight
-  })
-})
-
+watch(
+  () => props.list.length,
+  (value) => {
+    nextTick(() => {
+      container.value.setScrollTop(container.value.$el.scrollHeight)
+    })
+  }
+)
 </script>
 
 <template>
-  <div class="h-full overflow-y-auto bg-slate-100 absolute inset-0 py-8" ref="container">
+  <el-scrollbar class="h-full bg-slate-100 px-[45px]" ref="container">
     <div v-for="item in list" :key="item.timestamp">
-      <div class="flex" :class="item.isMe ? 'is-me' : ''">
-        <div class="p-4">
-          <el-avatar :size="50" :src="avatars[item.from]" class="cursor-pointer" @click="emit('clickAvatar', item.from)">
-            <img
-              src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
-            />
+      <div class="flex gap-[15px] mb-[35px]" :class="item.isMe ? 'is-me' : ''">
+        <div>
+          <el-avatar
+            :size="40"
+            :src="`/${item.from}.png`"
+            class="cursor-pointer"
+            @click="emit('clickAvatar', item.from)"
+          >
+            <img src="/user.png" />
           </el-avatar>
         </div>
-        <div class="pt-2">
+        <div>
           <div class="username">{{ item.from }}</div>
           <div class="message">{{ item.message }}</div>
         </div>
       </div>
     </div>
-  </div>
+  </el-scrollbar>
 </template>
 
 <style lang="postcss" scoped>
 .username {
-  @apply text-sm;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  padding-bottom: 5px;
 }
 .message {
-  @apply bg-white;
-  @apply px-4 py-2;
-  @apply border rounded;
+  background: white;
   max-width: 30vw;
+  padding: 10px;
+  border-radius: 0px 7px 7px 7px;
+  color: black;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
 }
 
 .is-me {
   flex-direction: row-reverse;
   .username {
+    display: none;
     text-align: right;
   }
   .message {
-    @apply bg-blue-200;
+    background: #f3b922;
+    border-radius: 7px 0px 7px 7px;
   }
 }
 </style>

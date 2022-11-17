@@ -18,7 +18,7 @@ const props = defineProps({
 const container = ref(null)
 
 watch(
-  () => props.list.length,
+  () => props.list,
   (value) => {
     nextTick(() => {
       container.value.setScrollTop(
